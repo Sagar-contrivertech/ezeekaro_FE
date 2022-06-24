@@ -19,12 +19,14 @@ import Dashboard from "../../pages/dashboard";
 import Typography from "../../pages/typography";
 import Notifications from "../../pages/notifications";
 import Maps from "../../pages/maps";
-import Tables from "../../pages/tables";
+import Tables from "../../pages/tables/ProductTables";
 import Icons from "../../pages/icons";
 import Charts from "../../pages/charts";
 
 // context
 import { useLayoutState } from "../../context/LayoutContext";
+import ProductTables from "../../pages/tables/ProductTables";
+import VendorTables from "../../pages/tables/VendorTables";
 
 function Layout(props) {
   var classes = useStyles();
@@ -46,7 +48,8 @@ function Layout(props) {
             <Switch>
               <Route path="/app/dashboard" component={Dashboard} />
               <Route path="/app/typography" component={Typography} />
-              <Route path="/app/tables" component={Tables} />
+              <Route path="/app/product" component={ProductTables} />
+              <Route path="/app/vendors" component={VendorTables} />
               <Route path="/app/notifications" component={Notifications} />
               <Route
                 exact
