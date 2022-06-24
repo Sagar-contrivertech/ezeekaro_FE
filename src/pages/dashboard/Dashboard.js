@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Grid,
   LinearProgress,
@@ -32,6 +32,7 @@ import { Typography } from "../../components/Wrappers";
 import Dot from "../../components/Sidebar/components/Dot";
 import Table from "./components/Table/Table";
 import BigStat from "./components/BigStat/BigStat";
+import axios from '../../Axios/axios'
 
 const mainChartData = getMainChartData();
 const PieChartData = [
@@ -44,9 +45,35 @@ const PieChartData = [
 export default function Dashboard(props) {
   var classes = useStyles();
   var theme = useTheme();
-
   // local
   var [mainChartState, setMainChartState] = useState("monthly");
+  const [userData, setUserData] = useState([])
+  const [inActiveCount, setinActiveCount] = useState(0)
+  const [activeCount, setActiveCount] = useState(0)
+
+  const token = localStorage.getItem('id_token')
+  let URL = "/User/GetUsers"
+
+  const data = async () => {
+    try {
+      let response = await axios.get(URL, {
+        method: 'POST',
+        headers: {
+          Authorization: `${token}`
+        },
+      })
+      console.log(response.data.FindUsers);
+      setUserData(response.data)
+      setinActiveCount(userData.FindUsers && userData.FindUsers.filter(v => v.Status === "inactive").length)
+      setActiveCount(userData.FindUsers && userData.FindUsers.filter(v => v.Status === "active").length)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    data()
+  }, [inActiveCount, activeCount])
 
   return (
     <>
@@ -54,14 +81,14 @@ export default function Dashboard(props) {
       <Grid container spacing={4}>
         <Grid item lg={3} md={4} sm={6} xs={12}>
           <Widget
-            title="Visits Today"
+            title="Users"
             upperTitle
             bodyClass={classes.fullHeightBody}
             className={classes.card}
           >
             <div className={classes.visitsNumberContainer}>
               <Typography size="xl" weight="medium">
-                12, 678
+                {userData.count}
               </Typography>
               <LineChart
                 width={55}
@@ -92,22 +119,24 @@ export default function Dashboard(props) {
             >
               <Grid item>
                 <Typography color="text" colorBrightness="secondary">
-                  Registrations
+                  Active
                 </Typography>
-                <Typography size="md">860</Typography>
+                <Typography size="md">{activeCount}</Typography>
               </Grid>
               <Grid item>
                 <Typography color="text" colorBrightness="secondary">
-                  Sign Out
+                  InActive
                 </Typography>
-                <Typography size="md">32</Typography>
+                <Typography size="md">
+                  {inActiveCount}
+                </Typography>
               </Grid>
-              <Grid item>
+              {/* <Grid item>
                 <Typography color="text" colorBrightness="secondary">
                   Rate
                 </Typography>
                 <Typography size="md">3.25%</Typography>
-              </Grid>
+              </Grid> */}
             </Grid>
           </Widget>
         </Grid>

@@ -40,9 +40,9 @@ const structure = [
   //   link: "/app/typography",
   //   icon: <TypographyIcon />,
   // },
-  { id: 1, label: "Tables", link: "/app/tables", icon: <TableIcon /> },
+  { id: 1, label: "Tables", link: "/app/product", icon: <TableIcon /> },
 
-  { id: 2, label: "Tables", link: "/app/tables", icon: <AddShoppingCartIcon /> },
+  { id: 2, label: "Tables", link: "/app/vendors", icon: <AddShoppingCartIcon /> },
 
 
   // {
