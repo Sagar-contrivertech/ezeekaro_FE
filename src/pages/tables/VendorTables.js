@@ -4,14 +4,20 @@ import MUIDataTable from "mui-datatables";
 import axios from '../../Axios/axios'
 // components
 import PageTitle from "../../components/PageTitle/PageTitle";
+import UserTableModal from "../models/UserTableModal";
 // data
 export default function VendorTables() {
-
     const [userData, setUserData] = useState([])
+    const [show , setShow] = useState(false);
 
     const token = localStorage.getItem('id_token')
     let URL = "/User/GetUsers"
 
+    const openModal = () => {
+        console.log(show)
+        setShow(true)
+        return <UserTableModal show={show} />
+    }
     const data = async () => {
         try {
             let response = await axios.get(URL, {
@@ -68,8 +74,8 @@ export default function VendorTables() {
                 empty: true,
                 customBodyRender: (value, tableMeta, updateValue) => {
                     return (
-                        <button onClick={() => window.alert(`Clicked "Edit" for row ${tableMeta.rowIndex}`)}>
-                            Edit
+                        <button onClick={openModal}>
+                            View Detail
                         </button>
                     );
                 }
