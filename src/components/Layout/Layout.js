@@ -22,7 +22,7 @@ import Maps from "../../pages/maps";
 import Tables from "../../pages/tables/ProductTables";
 import Icons from "../../pages/icons";
 import Charts from "../../pages/charts";
-
+import AddUser from "../../pages/UserComponent/AddUser";
 // context
 import { useLayoutState } from "../../context/LayoutContext";
 import ProductTables from "../../pages/tables/ProductTables";
@@ -51,6 +51,7 @@ function Layout(props) {
               <Route path="/app/product" component={ProductTables} />
               <Route path="/app/vendors" component={VendorTables} />
               <Route path="/app/notifications" component={Notifications} />
+              <Route path="/app/adduser" component={AddUser} />
               <Route
                 exact
                 path="/app/ui"
