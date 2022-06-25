@@ -13,6 +13,8 @@ import {
   AddShoppingCart as AddShoppingCart
 } from "@material-ui/icons";
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import PeopleIcon from '@material-ui/icons/People';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
 import { useTheme } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
@@ -42,7 +44,9 @@ const structure = [
   // },
   { id: 1, label: "Tables", link: "/app/product", icon: <TableIcon /> },
 
-  { id: 2, label: "Tables", link: "/app/vendors", icon: <AddShoppingCartIcon /> },
+  { id: 2, label: "Users", link: "/app/vendors", icon: <AddShoppingCartIcon /> },
+  { id: 3, label: "Add", link: "/app/adduser", icon: <PeopleIcon /> },
+  { id: 4, label: "Kyc", link: "/app/Kyc", icon: <VpnKeyIcon /> },
 
 
   // {

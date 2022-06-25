@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Grid } from "@material-ui/core";
 import MUIDataTable from "mui-datatables";
 import axios from '../../Axios/axios'
+import { Modal , Button } from 'react-bootstrap';
+
 // components
 import PageTitle from "../../components/PageTitle/PageTitle";
 import UserTableModal from "../models/UserTableModal";
@@ -16,8 +18,8 @@ export default function VendorTables() {
     const openModal = () => {
         console.log(show)
         setShow(true)
-        return <UserTableModal show={show} />
     }
+    const handleClose = () => setShow(false);
     const data = async () => {
         try {
             let response = await axios.get(URL, {
@@ -96,6 +98,24 @@ export default function VendorTables() {
                             filterType: "checkbox",
                         }}
                     />
+                    {/* <UserTableModal  show={show}/> */}
+                    {
+                show ? 
+                    <Modal.Dialog >
+                        <Modal.Header closeButton>
+                            <Modal.Title>Modal title</Modal.Title>
+                        </Modal.Header>
+
+                        <Modal.Body>
+                            <p>Modal body text goes here.</p>
+                        </Modal.Body>
+
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleClose}>Close</Button>
+                            <Button variant="primary" onClick={handleClose}>Save changes</Button>
+                        </Modal.Footer>
+                    </Modal.Dialog> : console.log("Hello ") 
+            }
                 </Grid>
             </Grid>
         </>
