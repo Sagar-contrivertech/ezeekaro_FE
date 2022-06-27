@@ -27,6 +27,7 @@ import AddUser from "../../pages/UserComponent/AddUser";
 import { useLayoutState } from "../../context/LayoutContext";
 import ProductTables from "../../pages/tables/ProductTables";
 import VendorTables from "../../pages/tables/VendorTables";
+import UserDetail from '../../pages/UserComponent/UserDetail'
 
 function Layout(props) {
   var classes = useStyles();
@@ -52,6 +53,7 @@ function Layout(props) {
               <Route path="/app/vendors" component={VendorTables} />
               <Route path="/app/notifications" component={Notifications} />
               <Route path="/app/adduser" component={AddUser} />
+              <Route path="/app/userdata" component={UserDetail} />
               <Route
                 exact
                 path="/app/ui"

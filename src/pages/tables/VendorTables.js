@@ -1,17 +1,25 @@
 import React, { useEffect, useState } from "react";
+import axios from '../../Axios/axios'
 import { Grid } from "@material-ui/core";
 import MUIDataTable from "mui-datatables";
-import axios from '../../Axios/axios'
-import { Modal , Button } from 'react-bootstrap';
-
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import './VendorTables.css'
 // components
 import PageTitle from "../../components/PageTitle/PageTitle";
-import UserTableModal from "../models/UserTableModal";
+import { Chip, Divider, TextField } from "@mui/material";
 // data
 export default function VendorTables() {
-    const [userData, setUserData] = useState([])
-    const [show , setShow] = useState(false);
+    const [userData, setUserData] = useState([]);
+    const [viewUserData , setviewUserData] = useState();
+    const [show, setShow] = useState(false);
+    const [open, setOpen] = React.useState(false);
+    const [contactEdit , setcontactEdit] = useState(false);
+    const [contactdata , setcontactdata] = useState(viewUserData ? viewUserData.Contact : "");
 
+    const handleClose = () => setOpen(false);
     const token = localStorage.getItem('id_token')
     let URL = "/User/GetUsers"
 
@@ -19,7 +27,21 @@ export default function VendorTables() {
         console.log(show)
         setShow(true)
     }
-    const handleClose = () => setShow(false);
+
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 500,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        height: 500,
+        p: 4,
+    };
+    const [userId, setUserId] = useState('')
+    // const handleClose = () => setShow(false);
     const data = async () => {
         try {
             let response = await axios.get(URL, {
@@ -35,9 +57,28 @@ export default function VendorTables() {
         }
     }
 
+    const handleOpen = (id) => {
+        setOpen(true);
+        console.log(id);
+        axios.get(`/User/getUserById/${id}` , {
+            headers : {
+                Authorization: `${token}`
+            }
+        }).then((res) => {
+            setviewUserData(res.data.getUser)
+        }).catch((err) => {
+            console.log(err)
+        })
+        // /getUserById/:id
+
+    };
     useEffect(() => {
         data()
     }, [])
+
+    const handleonedit = () => {
+        setcontactEdit(true)
+    }
 
     const column = [
 
@@ -76,9 +117,122 @@ export default function VendorTables() {
                 empty: true,
                 customBodyRender: (value, tableMeta, updateValue) => {
                     return (
-                        <button onClick={openModal}>
-                            View Detail
-                        </button>
+                        <>
+                            {/* {
+                                userData && userData.map((users, index) => (
+                                    <>
+                                        <div key={users._id}> */}
+                                        {/* <Button onClick={() => console.log(tableMeta , userData[tableMeta.rowIndex]._id)}>
+                                            View Detail
+                                        </Button> */}
+                                            <Button onClick={(e) => { handleOpen(userData[tableMeta.rowIndex]._id)  }} variant="contained" >View Detail</Button>
+                                        {/* </div> */}
+                                        <Modal
+                                            open={open}
+                                            onClose={handleClose}
+                                            aria-labelledby="modal-modal-title"
+                                            aria-describedby="modal-modal-description"
+                                        >
+                                            <Box sx={style}>
+                                                <Divider>
+                                                    <Chip label="View & Edit DETAIL" />
+                                                </Divider>
+                                            <div className="container">
+                                                <div className="row mb-5">
+                                                    <div className="col-6">
+                                                        <Typography>
+                                                            Name:
+                                                        </Typography>
+                                                    </div>
+                                                    <div className="col-6">
+                                                    <Typography>
+                                                        {
+                                                            viewUserData ? viewUserData.Name : "Sonam "
+                                                        }
+                                                    </Typography>
+                                                    </div>
+                                                </div>
+                                                <div className="row mb-5">
+                                                    <div className="col-6">
+                                                    <Typography>
+                                                        Email:
+                                                    </Typography>
+                                                    </div>
+                                                    <div className="col-6">
+                                                    <Typography>
+                                                        {
+                                                            viewUserData ? viewUserData.Email : "Sonam "
+                                                        }
+                                                    </Typography>
+                                                    </div>
+                                                </div>
+                                                <div className="row mb-5">
+                                                    <div className="col-6">
+                                                    <Typography>
+                                                        Phone:
+                                                    </Typography>
+                                                    </div>
+                                                    <div className="col-6">
+                                                    <Typography>
+                                                        {/* {
+                                                            viewUserData ? viewUserData.Contact : "Sonam "
+                                                        } */}
+                                                        {
+                                                            contactEdit === true ? (
+                                                                <>
+                                                                    <input
+                                                                        type="text"
+                                                                        value={contactdata}
+                                                                        onChange={(e) => setcontactdata(e.target.value)}
+                                                                        class="form-control"
+                                                                        id="exampleInputEmail1"
+                                                                        aria-describedby="emailHelp"
+                                                                        ></input>
+                                                                </>
+                                                            ) : viewUserData ? contactdata : "Sonam "
+                                                        }
+                                                        <Button variant="contained" className="mx-3" onClick={handleonedit} >Edit</Button>
+                                                    </Typography>
+                                                    </div>
+                                                </div>
+                                                <div className="row mb-5">
+                                                    <div className="col-6">
+                                                    <Typography>
+                                                    Status:
+                                                    </Typography>
+                                                    </div>
+                                                    <div className="col-6">
+                                                    <Typography>
+                                                        {
+                                                            viewUserData ? viewUserData.Status : "Sonam "
+                                                        }
+                                                        <Button variant="contained" className="mx-3" >Edit</Button>
+                                                    </Typography>
+                                                    </div>
+                                                </div>
+                                                <div className="row mb-5">
+                                                    <div className="col-6">
+                                                    <Typography>
+                                                    Roles:
+                                                    </Typography>
+                                                    </div>
+                                                    <div className="col-6">
+                                                    <Typography>
+                                                        {
+                                                            viewUserData ? viewUserData.Role : "Sonam "
+                                                        }
+                                                        <Button variant="contained" className="mx-3" >Edit</Button>
+                                                    </Typography>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </Box>
+                                        </Modal>
+                                    {/* </>
+                                )
+                                )
+                            } */}
+                        </>
                     );
                 }
             }
@@ -98,24 +252,6 @@ export default function VendorTables() {
                             filterType: "checkbox",
                         }}
                     />
-                    {/* <UserTableModal  show={show}/> */}
-                    {
-                show ? 
-                    <Modal.Dialog >
-                        <Modal.Header closeButton>
-                            <Modal.Title>Modal title</Modal.Title>
-                        </Modal.Header>
-
-                        <Modal.Body>
-                            <p>Modal body text goes here.</p>
-                        </Modal.Body>
-
-                        <Modal.Footer>
-                            <Button variant="secondary" onClick={handleClose}>Close</Button>
-                            <Button variant="primary" onClick={handleClose}>Save changes</Button>
-                        </Modal.Footer>
-                    </Modal.Dialog> : console.log("Hello ") 
-            }
                 </Grid>
             </Grid>
         </>
