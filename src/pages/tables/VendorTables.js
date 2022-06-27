@@ -2,16 +2,21 @@ import React, { useEffect, useState } from "react";
 import { Grid } from "@material-ui/core";
 import MUIDataTable from "mui-datatables";
 import axios from '../../Axios/axios'
-import { Modal , Button } from 'react-bootstrap';
-
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import './VendorTables.css'
 // components
 import PageTitle from "../../components/PageTitle/PageTitle";
-import UserTableModal from "../models/UserTableModal";
+import { Chip, Divider, TextField } from "@mui/material";
 // data
 export default function VendorTables() {
     const [userData, setUserData] = useState([])
-    const [show , setShow] = useState(false);
+    const [show, setShow] = useState(false);
+    const [open, setOpen] = React.useState(false);
 
+    const handleClose = () => setOpen(false);
     const token = localStorage.getItem('id_token')
     let URL = "/User/GetUsers"
 
@@ -19,7 +24,21 @@ export default function VendorTables() {
         console.log(show)
         setShow(true)
     }
-    const handleClose = () => setShow(false);
+
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 500,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        height: 500,
+        p: 4,
+    };
+    const [userId, setUserId] = useState('')
+    // const handleClose = () => setShow(false);
     const data = async () => {
         try {
             let response = await axios.get(URL, {
@@ -35,6 +54,11 @@ export default function VendorTables() {
         }
     }
 
+    const handleOpen = (e, id) => {
+        setOpen(true)
+        console.log(id);
+
+    };
     useEffect(() => {
         data()
     }, [])
@@ -76,9 +100,76 @@ export default function VendorTables() {
                 empty: true,
                 customBodyRender: (value, tableMeta, updateValue) => {
                     return (
-                        <button onClick={openModal}>
-                            View Detail
-                        </button>
+                        <>
+                            {/* {
+                                userData && userData.map((users, index) => (
+                                    <>
+                                        <div key={users._id}> */}
+                                            <Button onClick={(e) => { handleOpen() }} variant="contained" >View Detail</Button>
+                                        {/* </div> */}
+                                        <Modal
+                                            open={open}
+                                            onClose={handleClose}
+                                            aria-labelledby="modal-modal-title"
+                                            aria-describedby="modal-modal-description"
+                                        >
+                                            <Box sx={style}>
+                                                <Divider>
+                                                    <Chip label="VIEW DETAIL" />
+                                                </Divider>
+
+                                                <Typography className="d-flex justify-content-around " >
+                                                    <Typography>
+                                                        Name:
+                                                    </Typography>
+                                                    <Typography>
+                                                        Sonam Jha
+                                                    </Typography>
+                                                </Typography>
+                                                <br />
+                                                <Typography className="d-flex justify-content-around " >
+                                                    <Typography>
+                                                        Email:
+                                                    </Typography>
+                                                    <Typography>
+                                                        Sonam Jha
+                                                    </Typography>
+                                                </Typography>
+                                                <br />
+                                                <Typography className="d-flex justify-content-around " >
+                                                    <Typography>
+                                                        Phone:
+                                                    </Typography>
+                                                    <Typography>
+                                                        Sonam Jha
+                                                    </Typography>
+                                                </Typography>
+                                                <br />
+                                                <Typography className="d-flex justify-content-around " >
+                                                    <Typography>
+                                                        Status:
+                                                    </Typography>
+                                                    <Typography>
+                                                        Sonam Jha
+                                                    </Typography>
+                                                </Typography>
+                                                <br />
+                                                <Typography className="d-flex justify-content-around " >
+                                                    <Typography>
+                                                        Roles:
+                                                    </Typography>
+                                                    <Typography>
+                                                        Sonam Jha
+                                                    </Typography>
+                                                </Typography>
+                                                <br />
+                                            </Box>
+                                        </Modal>
+                                    {/* </>
+                                )
+                                )
+                            } */}
+                        </>
                     );
                 }
             }
@@ -98,24 +189,6 @@ export default function VendorTables() {
                             filterType: "checkbox",
                         }}
                     />
-                    {/* <UserTableModal  show={show}/> */}
-                    {
-                show ? 
-                    <Modal.Dialog >
-                        <Modal.Header closeButton>
-                            <Modal.Title>Modal title</Modal.Title>
-                        </Modal.Header>
-
-                        <Modal.Body>
-                            <p>Modal body text goes here.</p>
-                        </Modal.Body>
-
-                        <Modal.Footer>
-                            <Button variant="secondary" onClick={handleClose}>Close</Button>
-                            <Button variant="primary" onClick={handleClose}>Save changes</Button>
-                        </Modal.Footer>
-                    </Modal.Dialog> : console.log("Hello ") 
-            }
                 </Grid>
             </Grid>
         </>
