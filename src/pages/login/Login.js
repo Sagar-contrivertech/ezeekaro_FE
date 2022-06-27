@@ -232,7 +232,7 @@ function Login(props) {
           )}
         </div>
         <Typography color="primary" className={classes.copyright}>
-          © {new Date().getFullYear()} ContriverTech PVT LTD. All rights reserved.
+          {/* © {new Date().getFullYear()} ContriverTech PVT LTD. All rights reserved. */}
         </Typography>
       </div>
     </Grid>

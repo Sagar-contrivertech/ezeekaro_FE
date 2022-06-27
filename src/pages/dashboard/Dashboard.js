@@ -142,7 +142,7 @@ export default function Dashboard(props) {
         </Grid>
         <Grid item lg={3} md={8} sm={6} xs={12}>
           <Widget
-            title="App Performance"
+            title="Curent Employess"
             upperTitle
             className={classes.card}
             bodyClass={classes.fullHeightBody}
@@ -155,7 +155,7 @@ export default function Dashboard(props) {
                   colorBrightness="secondary"
                   className={classes.legendElementText}
                 >
-                  Integration
+                  Delievry
                 </Typography>
               </div>
               <div className={classes.legendElement}>
@@ -165,7 +165,7 @@ export default function Dashboard(props) {
                   colorBrightness="secondary"
                   className={classes.legendElementText}
                 >
-                  SDK
+                  In-house
                 </Typography>
               </div>
             </div>
@@ -205,7 +205,7 @@ export default function Dashboard(props) {
         </Grid>
         <Grid item lg={3} md={8} sm={6} xs={12}>
           <Widget
-            title="Server Overview"
+            title="current progress"
             upperTitle
             className={classes.card}
             bodyClass={classes.fullHeightBody}
@@ -216,7 +216,7 @@ export default function Dashboard(props) {
                 colorBrightness="secondary"
                 className={classes.serverOverviewElementText}
               >
-                60% / 37°С / 3.3 Ghz
+                60% 
               </Typography>
               <div className={classes.serverOverviewElementChartWrapper}>
                 <ResponsiveContainer height={50} width="99%">
@@ -239,7 +239,7 @@ export default function Dashboard(props) {
                 colorBrightness="secondary"
                 className={classes.serverOverviewElementText}
               >
-                54% / 31°С / 3.3 Ghz
+                54%
               </Typography>
               <div className={classes.serverOverviewElementChartWrapper}>
                 <ResponsiveContainer height={50} width="99%">
@@ -262,7 +262,7 @@ export default function Dashboard(props) {
                 colorBrightness="secondary"
                 className={classes.serverOverviewElementText}
               >
-                57% / 21°С / 3.3 Ghz
+                57% 
               </Typography>
               <div className={classes.serverOverviewElementChartWrapper}>
                 <ResponsiveContainer height={50} width="99%">
@@ -321,7 +321,7 @@ export default function Dashboard(props) {
             </Grid>
           </Widget>
         </Grid>
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <Widget
             bodyClass={classes.mainChartBody}
             header={
@@ -420,7 +420,7 @@ export default function Dashboard(props) {
               </ComposedChart>
             </ResponsiveContainer>
           </Widget>
-        </Grid>
+        </Grid> */}
         {mock.bigStat.map(stat => (
           <Grid item md={4} sm={6} xs={12} key={stat.product}>
             <BigStat {...stat} />

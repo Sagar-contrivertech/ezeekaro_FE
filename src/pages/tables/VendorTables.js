@@ -99,7 +99,7 @@ export default function VendorTables() {
             setStatusEdit(false)
             setcontactEdit(false)
             setRoleEdit(false)
-            swal("Users Is Register Sucesfullt");
+            swal("User edit successfuly !!");
             setOpen(false)
             // Refresh the effect by incrementing 1
             setRefreshKey(oldKey => oldKey + 1)
