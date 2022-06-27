@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
+import axios from '../../Axios/axios'
 import { Grid } from "@material-ui/core";
 import MUIDataTable from "mui-datatables";
-import axios from '../../Axios/axios'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -12,9 +12,12 @@ import PageTitle from "../../components/PageTitle/PageTitle";
 import { Chip, Divider, TextField } from "@mui/material";
 // data
 export default function VendorTables() {
-    const [userData, setUserData] = useState([])
+    const [userData, setUserData] = useState([]);
+    const [viewUserData , setviewUserData] = useState();
     const [show, setShow] = useState(false);
     const [open, setOpen] = React.useState(false);
+    const [contactEdit , setcontactEdit] = useState(false);
+    const [contactdata , setcontactdata] = useState(viewUserData ? viewUserData.Contact : "");
 
     const handleClose = () => setOpen(false);
     const token = localStorage.getItem('id_token')
@@ -54,14 +57,28 @@ export default function VendorTables() {
         }
     }
 
-    const handleOpen = (e, id) => {
-        setOpen(true)
+    const handleOpen = (id) => {
+        setOpen(true);
         console.log(id);
+        axios.get(`/User/getUserById/${id}` , {
+            headers : {
+                Authorization: `${token}`
+            }
+        }).then((res) => {
+            setviewUserData(res.data.getUser)
+        }).catch((err) => {
+            console.log(err)
+        })
+        // /getUserById/:id
 
     };
     useEffect(() => {
         data()
     }, [])
+
+    const handleonedit = () => {
+        setcontactEdit(true)
+    }
 
     const column = [
 
@@ -105,7 +122,10 @@ export default function VendorTables() {
                                 userData && userData.map((users, index) => (
                                     <>
                                         <div key={users._id}> */}
-                                            <Button onClick={(e) => { handleOpen() }} variant="contained" >View Detail</Button>
+                                        {/* <Button onClick={() => console.log(tableMeta , userData[tableMeta.rowIndex]._id)}>
+                                            View Detail
+                                        </Button> */}
+                                            <Button onClick={(e) => { handleOpen(userData[tableMeta.rowIndex]._id)  }} variant="contained" >View Detail</Button>
                                         {/* </div> */}
                                         <Modal
                                             open={open}
@@ -115,54 +135,97 @@ export default function VendorTables() {
                                         >
                                             <Box sx={style}>
                                                 <Divider>
-                                                    <Chip label="VIEW DETAIL" />
+                                                    <Chip label="View & Edit DETAIL" />
                                                 </Divider>
-
-                                                <Typography className="d-flex justify-content-around " >
+                                            <div className="container">
+                                                <div className="row mb-5">
+                                                    <div className="col-6">
+                                                        <Typography>
+                                                            Name:
+                                                        </Typography>
+                                                    </div>
+                                                    <div className="col-6">
                                                     <Typography>
-                                                        Name:
+                                                        {
+                                                            viewUserData ? viewUserData.Name : "Sonam "
+                                                        }
                                                     </Typography>
-                                                    <Typography>
-                                                        Sonam Jha
-                                                    </Typography>
-                                                </Typography>
-                                                <br />
-                                                <Typography className="d-flex justify-content-around " >
+                                                    </div>
+                                                </div>
+                                                <div className="row mb-5">
+                                                    <div className="col-6">
                                                     <Typography>
                                                         Email:
                                                     </Typography>
+                                                    </div>
+                                                    <div className="col-6">
                                                     <Typography>
-                                                        Sonam Jha
+                                                        {
+                                                            viewUserData ? viewUserData.Email : "Sonam "
+                                                        }
                                                     </Typography>
-                                                </Typography>
-                                                <br />
-                                                <Typography className="d-flex justify-content-around " >
+                                                    </div>
+                                                </div>
+                                                <div className="row mb-5">
+                                                    <div className="col-6">
                                                     <Typography>
                                                         Phone:
                                                     </Typography>
+                                                    </div>
+                                                    <div className="col-6">
                                                     <Typography>
-                                                        Sonam Jha
+                                                        {/* {
+                                                            viewUserData ? viewUserData.Contact : "Sonam "
+                                                        } */}
+                                                        {
+                                                            contactEdit === true ? (
+                                                                <>
+                                                                    <input
+                                                                        type="text"
+                                                                        value={contactdata}
+                                                                        onChange={(e) => setcontactdata(e.target.value)}
+                                                                        class="form-control"
+                                                                        id="exampleInputEmail1"
+                                                                        aria-describedby="emailHelp"
+                                                                        ></input>
+                                                                </>
+                                                            ) : viewUserData ? contactdata : "Sonam "
+                                                        }
+                                                        <Button variant="contained" className="mx-3" onClick={handleonedit} >Edit</Button>
                                                     </Typography>
-                                                </Typography>
-                                                <br />
-                                                <Typography className="d-flex justify-content-around " >
+                                                    </div>
+                                                </div>
+                                                <div className="row mb-5">
+                                                    <div className="col-6">
                                                     <Typography>
-                                                        Status:
+                                                    Status:
                                                     </Typography>
+                                                    </div>
+                                                    <div className="col-6">
                                                     <Typography>
-                                                        Sonam Jha
+                                                        {
+                                                            viewUserData ? viewUserData.Status : "Sonam "
+                                                        }
+                                                        <Button variant="contained" className="mx-3" >Edit</Button>
                                                     </Typography>
-                                                </Typography>
-                                                <br />
-                                                <Typography className="d-flex justify-content-around " >
+                                                    </div>
+                                                </div>
+                                                <div className="row mb-5">
+                                                    <div className="col-6">
                                                     <Typography>
-                                                        Roles:
+                                                    Roles:
                                                     </Typography>
+                                                    </div>
+                                                    <div className="col-6">
                                                     <Typography>
-                                                        Sonam Jha
+                                                        {
+                                                            viewUserData ? viewUserData.Role : "Sonam "
+                                                        }
+                                                        <Button variant="contained" className="mx-3" >Edit</Button>
                                                     </Typography>
-                                                </Typography>
-                                                <br />
+                                                    </div>
+                                                </div>
+                                            </div>
                                             </Box>
                                         </Modal>
                                     {/* </>
