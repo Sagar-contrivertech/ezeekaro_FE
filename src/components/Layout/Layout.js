@@ -28,6 +28,7 @@ import { useLayoutState } from "../../context/LayoutContext";
 import ProductTables from "../../pages/tables/ProductTables";
 import VendorTables from "../../pages/tables/VendorTables";
 import UserDetail from '../../pages/UserComponent/UserDetail'
+import showDelivery from "../../pages/UserComponent/ShowDelivery";
 
 function Layout(props) {
   var classes = useStyles();
@@ -54,6 +55,7 @@ function Layout(props) {
               <Route path="/app/notifications" component={Notifications} />
               <Route path="/app/adduser" component={AddUser} />
               <Route path="/app/userdata" component={UserDetail} />
+              {/* <Route path="/app/Deliverydata" component={UserDetail} /> */}
               <Route
                 exact
                 path="/app/ui"
@@ -62,6 +64,7 @@ function Layout(props) {
               <Route path="/app/ui/maps" component={Maps} />
               <Route path="/app/ui/icons" component={Icons} />
               <Route path="/app/ui/charts" component={Charts} />
+              <Route path="/app/Kyc" component={showDelivery} />
             </Switch>
           </div>
         </>
