@@ -29,6 +29,7 @@ import ProductTables from "../../pages/tables/ProductTables";
 import VendorTables from "../../pages/tables/VendorTables";
 import UserDetail from '../../pages/UserComponent/UserDetail'
 import showDelivery from "../../pages/UserComponent/ShowDelivery";
+import Salary from "../../pages/HrmComponent/Salary";
 
 function Layout(props) {
   var classes = useStyles();
@@ -65,6 +66,7 @@ function Layout(props) {
               <Route path="/app/ui/icons" component={Icons} />
               <Route path="/app/ui/charts" component={Charts} />
               <Route path="/app/Kyc" component={showDelivery} />
+              <Route path="/app/Hrm" component={Salary} />
             </Switch>
           </div>
         </>
