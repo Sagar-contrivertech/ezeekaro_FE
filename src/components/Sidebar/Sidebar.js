@@ -47,6 +47,7 @@ const structure = [
   { id: 2, label: "Users", link: "/app/vendors", icon: <AddShoppingCartIcon /> },
   { id: 3, label: "Add", link: "/app/adduser", icon: <PeopleIcon /> },
   { id: 4, label: "Kyc", link: "/app/Kyc", icon: <VpnKeyIcon /> },
+  { id: 5, label: "Hrm", link: "/app/Hrm", icon: <VpnKeyIcon /> },
 
 
   // {
