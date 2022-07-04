@@ -154,7 +154,6 @@ const ShowDelivery = () => {
                     // console.log(viewUserData);
                     return (
                         <>
-                        {/* onClick={(e) => { handleOpen(userData[tableMeta.rowIndex]._id) }} */}
                             <Button onClick={(e) => { handleOpen(userData[tableMeta.rowIndex]._id) }}  variant="contained" >View Detail</Button>
                             <Modal
                                 open={open}
