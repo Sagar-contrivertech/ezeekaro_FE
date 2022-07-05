@@ -29,6 +29,8 @@ const Salary = () => {
     const [Permission , setPermission] = useState("");
     const [Salary , setSalary] = useState();
     const [open, setOpen] = useState(false);
+    const [salarycalcid , setsalarycalid] = useState("");
+    const [monthlysalary , setmonthlysalary] = useState([]);
     const token = localStorage.getItem('id_token');
 
 
@@ -92,7 +94,10 @@ const Salary = () => {
             }
         }).then((res) => {
             setAttendance(res.data.gettime)
-            calculateSalary(res.data.gettime[0].UserId)
+            setsalarycalid(res.data.gettime[0].UserId)
+            console.log("salary id " , res.data.gettime[0].UserId)
+            // calculateSalary(res.data.gettime[0].UserId)
+            // res.data.gettime[0].UserId
             // console.log(res , "attendance data");
         }).catch((err) => {
             console.log("err data attendance" , err)
@@ -101,13 +106,17 @@ const Salary = () => {
     }
 
     const calculateSalary = (id) => {
-        console.log("calculatesalary" , id)
+        if (month === undefined) {
+            alert("please select month first");
+        }
+        // console.log(`/Salary/CalculateSalary/${id}/${days}`, id)
         if (id) {
-        axios.post(`/Salary/CalculateSalary/${id}/${days}` , {
+        axios.post(`Salary/CalculateSalary/${id}/${days}` , {
             headers: {
                 Authorization: `${token}`
             }
         }).then((res) => {
+            setmonthlysalary(res.data.Addsalary)
             console.log(res , "attendance data" );
         }).catch((err) => {
             console.log("err data attendance calculate" , err)
@@ -221,13 +230,15 @@ const Salary = () => {
                                         <div className="row mb-5">
                                             <div className="col-6">
                                                 <Typography>
-                                                    Calender:
+                                                    <label htmlFor="month">Calender:</label>
+                                                    
                                                 </Typography>
                                             </div>
                                             <div className="col-6">
                                                 <Typography>
-                                                    <input type="month" value={month} onChange={(e) => {
-                                                        setMonth(e.target.value.split("-")[1])
+                                                    <input type="month" name="month" id="month" value={month} onChange={(e) => {
+                                                        // setMonth(e.target.value.split("-")[1])
+                                                        setMonth(e.target.value)
                                                         // console.log()
                                                         console.log(parseInt(e.target.value.split("-")[1]));
                                                         console.log("hdkd")
@@ -237,48 +248,6 @@ const Salary = () => {
                                                 </Typography>
                                             </div>
                                         </div>
-                                        {/* <div className="row mb-5">
-                                            <div className="col-6">
-                                                <Typography>
-                                                    Role:
-                                                </Typography>
-                                            </div>
-                                            <div className="col-6">
-                                                <Typography>
-                                                    {
-                                                        Role ? Role : ""
-                                                    }
-                                                </Typography>
-                                            </div>
-                                        </div>
-                                        <div className="row mb-5">
-                                            <div className="col-6">
-                                                <Typography>
-                                                    Permission:
-                                                </Typography>
-                                            </div>
-                                            <div className="col-6">
-                                                <Typography>
-                                                    {
-                                                        Permission ? Permission : ""
-                                                    }
-                                                </Typography>
-                                            </div>
-                                        </div>
-                                        <div className="row mb-5">
-                                            <div className="col-6">
-                                                <Typography>
-                                                    Status:
-                                                </Typography>
-                                            </div>
-                                            <div className="col-6">
-                                                <Typography>
-                                                    {
-                                                        Status ? Status : ""
-                                                    }
-                                                </Typography>
-                                            </div>
-                                        </div> */}
                                         <div className="row mb-5">
                                             <div className="col-6">
                                                 <Typography>
@@ -293,10 +262,25 @@ const Salary = () => {
                                                 </Typography>
                                             </div>
                                         </div>
+                                        <div className="row mb-5">
+                                            <div className="col-6">
+                                                <Typography>
+                                                    Month && Salary:
+                                                </Typography>
+                                            </div>
+                                            <div className="col-6">
+                                                <Typography>
+                                                    {
+                                                        monthlysalary ? monthlysalary.Salary : "Click on calculate Button"
+                                                    }
+                                                </Typography>
+                                            </div>
+                                        </div>
                                         
                                         <div className="text-center">
                                         {/* onClick={(e) => { handleSubmit(e) }} */}
                                             <Button variant="contained" >Save</Button>
+                                            <Button variant="contained" onClick={() => calculateSalary(salarycalcid) }>Calculate Salary</Button>
                                         </div>
                                     </div>
                                 </Box>
