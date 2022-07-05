@@ -30,6 +30,7 @@ import VendorTables from "../../pages/tables/VendorTables";
 import UserDetail from '../../pages/UserComponent/UserDetail'
 import showDelivery from "../../pages/UserComponent/ShowDelivery";
 import Salary from "../../pages/HrmComponent/Salary";
+import AddProduct from "../../pages/Product/AddProduct";
 
 function Layout(props) {
   var classes = useStyles();
@@ -67,6 +68,9 @@ function Layout(props) {
               <Route path="/app/ui/charts" component={Charts} />
               <Route path="/app/Kyc" component={showDelivery} />
               <Route path="/app/Hrm" component={Salary} />
+
+              {/* product routes  */}
+              <Route path="/app/AddProduct" component={AddProduct} />
             </Switch>
           </div>
         </>

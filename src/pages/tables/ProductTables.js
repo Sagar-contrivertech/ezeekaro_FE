@@ -4,6 +4,7 @@ import MUIDataTable from "mui-datatables";
 import axios from '../../Axios/axios'
 // components
 import PageTitle from "../../components/PageTitle/PageTitle";
+import { Link } from "react-router-dom";
 // data
 export default function ProductTables() {
 
@@ -31,12 +32,22 @@ export default function ProductTables() {
     data()
   }, [])
 
+  const btnstyle = {
+    "padding" : "10px",
+    "marginBottom" : "10px !important",
+    "backgroundColor": "#536DFE",
+    "color": "#fff",
+    "textDecoration" : "none"
+  }
+
   return (
     <>
       <PageTitle title="Product Data" />
       <Grid container spacing={4}>
         <Grid item xs={12}>
+          <Link to="/app/AddProduct"  style={btnstyle}> Add Product </Link>
           <MUIDataTable
+            className="mt-5"
             title="Product List"
             data={productData}
             columns={["Name", "Description", "CategoryName", "price", "VendorName"]}
